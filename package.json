@@ -1,0 +1,62 @@
+{
+  "name": "statamic-favicons",
+  "version": "1.0.0",
+  "description": "Generate modern favicons for Statamic sites from a single source image.",
+  "type": "module",
+  "bin": {
+    "statamic-favicons": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx src/cli.ts",
+    "prepack": "pnpm build",
+    "prepublishOnly": "pnpm test && pnpm typecheck && pnpm build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "statamic",
+    "favicon",
+    "favicons",
+    "realfavicongenerator",
+    "cli"
+  ],
+  "author": "Emin Jasarevic <emin@jasarevic.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "@clack/prompts": "^1.4.0",
+    "@realfavicongenerator/generate-favicon": "^0.8.3",
+    "@realfavicongenerator/image-adapter-node": "^0.8.3",
+    "commander": "^14.0.2",
+    "culori": "^4.0.2",
+    "fast-glob": "^3.3.3",
+    "sharp": "^0.34.5",
+    "term-img": "^7.1.0",
+    "terminal-image": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/culori": "^4.0.1",
+    "@types/node": "^24.10.1",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
