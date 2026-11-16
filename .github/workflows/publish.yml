@@ -56,5 +56,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Validate, build, and publish to npm
-        run: npm publish --access public
+      - name: Validate and build the package
+        run: pnpm run prepublishOnly
+
+      - name: Publish the built package to npm
+        run: npm publish --access public --ignore-scripts

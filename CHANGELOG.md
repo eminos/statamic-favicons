@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Changed
+
+- Build and validate the package before invoking npm publish so npm reads the generated CLI entry immediately.
+
 ## 2.0.0 - 2026-11-16
 
 ### Changed
