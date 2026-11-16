@@ -22,14 +22,14 @@ import { normalizePublicPath, toAbsolute, toRelative } from './paths.js';
 import { createPlan, describePlan } from './plan.js';
 import { renderSourcePreview, shouldUseItermPreview } from './preview.js';
 import { partialReference, renderAntlersPartial } from './render.js';
-import type { GenerateOptions, ProjectDetection, ThemeColor, UserConfig } from './types.js';
+import type { GenerateOptions, GenerateResult, ProjectDetection, ThemeColor, UserConfig } from './types.js';
 
 const program = new Command();
 
 program
   .name('statamic-favicons')
   .description('Generate modern favicons for Statamic sites from a single source image.')
-  .version('1.0.0');
+  .version('2.0.0');
 
 program
   .command('generate')
@@ -114,7 +114,15 @@ async function runGenerate(rawOptions: { cwd: string }): Promise<void> {
 
   const s = spinner();
   s.start('Generating favicon package');
-  const result = await generateFavicons(plan);
+  let result: GenerateResult;
+
+  try {
+    result = await generateFavicons(plan);
+  } catch (error) {
+    s.error('Failed to generate favicon package');
+    throw error;
+  }
+
   s.stop('Generated favicon package');
 
   if (options.inject && options.layout && plan.partial) {

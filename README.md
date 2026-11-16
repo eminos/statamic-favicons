@@ -12,7 +12,7 @@ This package is Statamic-specific. If `statamic/cms` is not found in `composer.j
 
 ## Requirements
 
-- Node.js 20 or newer
+- Node.js 22.13 or newer
 - A Statamic project with `statamic/cms` in `composer.json`
 - One source favicon image in SVG, PNG, JPG, JPEG, or WebP format
 
@@ -248,14 +248,14 @@ From this repo:
 pnpm install
 pnpm test
 pnpm typecheck
-pnpm build
+pnpm test:package
 pnpm pack --dry-run
 ```
 
 Then from a Statamic project:
 
 ```bash
-npx -y -p /path/to/statamic-favicons/statamic-favicons-1.0.0.tgz statamic-favicons generate
+npx -y -p /path/to/statamic-favicons/statamic-favicons-2.0.0.tgz statamic-favicons generate
 ```
 
 ## Release checklist
@@ -265,11 +265,28 @@ Before publishing:
 ```bash
 pnpm test
 pnpm typecheck
-pnpm build
+pnpm test:package
 pnpm pack --dry-run
 ```
 
-`pnpm publish` also runs the same test, typecheck, and build checks through `prepublishOnly`.
+`pnpm test:package` builds the published JavaScript and smoke-tests SVG and PNG generation from that output.
+
+`npm publish` also runs the same test, typecheck, and built-package checks through `prepublishOnly`.
+
+Publishing a stable GitHub release triggers `.github/workflows/publish.yml`. The workflow checks that the release tag is `v` followed by the version in `package.json`, installs dependencies from the lockfile, and publishes to npm. Pushing a tag alone does not publish the package.
+
+Configure the package's npm trusted publisher once in npm Settings → Trusted publishing:
+
+- Provider: GitHub Actions
+- Organization or user: `eminos`
+- Repository: `statamic-favicons`
+- Workflow filename: `publish.yml`
+- Environment: leave blank
+- Allowed actions: enable direct publishing with `npm publish`
+
+The workflow uses OIDC; no npm token or GitHub Actions secret is required. See [npm's trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
+
+For each release, update the version in `package.json` and `src/cli.ts`, add a dated changelog entry, run the checks above, and commit the changes. Push an annotated `vX.Y.Z` tag and publish its GitHub release. Confirm that the publishing workflow succeeds and npm lists the new version before announcing it.
 
 ## License
 

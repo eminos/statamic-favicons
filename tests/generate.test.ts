@@ -3,8 +3,8 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
-import { describe, expect, it } from 'vitest';
-import { createFaviconSettings, renderIcoFrame } from '../src/generate.js';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { createFaviconSettings, generateFavicons, renderIcoFrame } from '../src/generate.js';
 import type { GenerationPlan } from '../src/types.js';
 
 const basePlan: GenerationPlan = {
@@ -24,6 +24,43 @@ const basePlan: GenerationPlan = {
   iconScale: 1,
   skipMetadataInjection: true,
 };
+
+describe('generateFavicons', () => {
+  let tmp: string;
+
+  beforeEach(async () => {
+    tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'statamic-favicons-generation-'));
+  });
+
+  afterEach(async () => {
+    await fs.rm(tmp, { recursive: true, force: true });
+  });
+
+  it.each(['svg', 'png'])('generates a complete favicon package from %s artwork', async (format) => {
+    const artwork = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="#ff6633"/></svg>');
+    const source = `favicon.${format}`;
+    await fs.writeFile(path.join(tmp, source), format === 'svg' ? artwork : await sharp(artwork).png().toBuffer());
+    const plan = { ...basePlan, cwd: tmp, source, partial: 'resources/views/partials/favicons.antlers.html' };
+
+    const result = await generateFavicons(plan);
+
+    for (const name of ['favicon.ico', 'favicon.svg', 'favicon-96x96.png', 'apple-touch-icon.png', 'site.webmanifest']) {
+      const relativePath = path.posix.join(plan.outDir, name);
+      expect(result.files).toContain(relativePath);
+      expect((await fs.stat(path.join(tmp, relativePath))).size).toBeGreaterThan(0);
+    }
+    await expect(sharp(path.join(tmp, plan.outDir, 'favicon-96x96.png')).metadata())
+      .resolves.toMatchObject({ format: 'png', width: 96, height: 96 });
+    const manifest = JSON.parse(await fs.readFile(path.join(tmp, plan.outDir, 'site.webmanifest'), 'utf8'));
+    expect(manifest).toMatchObject({ name: plan.appName, short_name: plan.shortName });
+    const partial = await fs.readFile(path.join(tmp, plan.partial), 'utf8');
+    expect(partial).toContain(`${plan.publicPath}favicon.svg`);
+    expect(partial).toContain(`${plan.publicPath}site.webmanifest`);
+    const data = JSON.parse(await fs.readFile(path.join(tmp, plan.data), 'utf8'));
+    expect(data).toMatchObject({ source, publicPath: plan.publicPath, markup: result.markup.markups });
+    expect(data.assets).toEqual(result.files);
+  });
+});
 
 describe('createFaviconSettings', () => {
   it('uses a transparent background transformation for transparent backgrounds', () => {

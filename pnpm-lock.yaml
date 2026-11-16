@@ -29,6 +29,9 @@ importers:
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
+      svgdom:
+        specifier: ^0.1.29
+        version: 0.1.29
       term-img:
         specifier: ^7.1.0
         version: 7.1.0
@@ -1231,13 +1234,10 @@ packages:
   image-q@4.0.0:
     resolution: {integrity: sha512-PfJGVgIfKQJuq3s0tTDOKtztksibuUEbJQIYT3by6wctQo+Rdlh7ef4evJ5NCdxY4CfMbvFkocEwbl4BF8RlJw==}
 
-  image-size@1.2.1:
-    resolution: {integrity: sha512-rH+46sQJ2dlwfjfhCyNx5thzrv+dtmBIhPHk0zgRUukHzZ/kRueTJXoYYsclBaKcSMBWuGbOFXtioLpzTb5euw==}
-    engines: {node: '>=16.x'}
+  image-size@2.1.0:
+    resolution: {integrity: sha512-6Dbisa46RsgeAh3TMSFL2i8+uIFG+/LRmz6Q2oscSJJvXo1sOw3EgNO4M8jPl1P+gR1atJLDPrpclX4IHz63sA==}
+    engines: {node: '>=18'}
     hasBin: true
-
-  inherits@2.0.4:
-    resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
   is-extglob@2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
@@ -1510,9 +1510,6 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  queue@6.0.2:
-    resolution: {integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==}
-
   readdirp@4.1.2:
     resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
     engines: {node: '>= 14.18.0'}
@@ -1626,8 +1623,9 @@ packages:
     resolution: {integrity: sha512-+KdfozhS0Fw8y5Sghw8kkZNGT8nWYzJ1EzcoIvVjxhl+26TJTs26y02yfBgvc1jh5AS/c8jcI3xtahhR95KRyQ==}
     engines: {node: '>=20'}
 
-  svgdom@0.1.23:
-    resolution: {integrity: sha512-zTT8cz8rf07OCvRhTipJv+bt/MgL5Zm2ZF3IttK9zr/MKVDTrgo+usbDQMOK1PGzqDT7GA1SshnYlXvtafK7Fw==}
+  svgdom@0.1.29:
+    resolution: {integrity: sha512-BpwpgRfvntIF3Pdn8Pe5pUvZXxaKz9GVSYfs7g3CfjHdvmVkYYqJjZeLV+2oJCXzkaPITDuVD7ZAUV+BkJedtw==}
+    engines: {node: '>=22.13.0'}
 
   term-img@7.1.0:
     resolution: {integrity: sha512-au++khgSDly2KXNhC6BOU3mLi2v+Dk5mChYKDcpB5xYwhlwqYQtj0z59dIqFEmr+w7ndZaNqurHapkGc6/hprQ==}
@@ -2401,7 +2399,7 @@ snapshots:
       '@realfavicongenerator/generate-favicon': 0.8.3
       '@svgdotjs/svg.js': 3.2.5
       sharp: 0.34.5
-      svgdom: 0.1.23
+      svgdom: 0.1.29
 
   '@rolldown/binding-android-arm64@1.0.2':
     optional: true
@@ -2861,11 +2859,7 @@ snapshots:
     dependencies:
       '@types/node': 16.9.1
 
-  image-size@1.2.1:
-    dependencies:
-      queue: 6.0.2
-
-  inherits@2.0.4: {}
+  image-size@2.1.0: {}
 
   is-extglob@2.1.1: {}
 
@@ -3102,10 +3096,6 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  queue@6.0.2:
-    dependencies:
-      inherits: 2.0.4
-
   readdirp@4.1.2: {}
 
   resolve-from@5.0.0: {}
@@ -3266,10 +3256,10 @@ snapshots:
 
   supports-terminal-graphics@0.1.0: {}
 
-  svgdom@0.1.23:
+  svgdom@0.1.29:
     dependencies:
       fontkit: 2.0.4
-      image-size: 1.2.1
+      image-size: 2.1.0
       sax: 1.6.0
 
   term-img@7.1.0:

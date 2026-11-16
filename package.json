@@ -1,7 +1,11 @@
 {
   "name": "statamic-favicons",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Generate modern favicons for Statamic sites from a single source image.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eminos/statamic-favicons.git"
+  },
   "type": "module",
   "bin": {
     "statamic-favicons": "./dist/cli.js"
@@ -22,8 +26,9 @@
     "build": "tsup",
     "dev": "tsx src/cli.ts",
     "prepack": "pnpm build",
-    "prepublishOnly": "pnpm test && pnpm typecheck && pnpm build",
+    "prepublishOnly": "pnpm test && pnpm typecheck && pnpm test:package",
     "test": "vitest run",
+    "test:package": "pnpm build && node --test tests/package-smoke.mjs",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
@@ -45,6 +50,7 @@
     "culori": "^4.0.2",
     "fast-glob": "^3.3.3",
     "sharp": "^0.34.5",
+    "svgdom": "^0.1.29",
     "term-img": "^7.1.0",
     "terminal-image": "^4.3.0"
   },
@@ -57,6 +63,6 @@
     "vitest": "^4.0.14"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.13.0"
   }
 }

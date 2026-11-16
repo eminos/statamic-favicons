@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.0.0 - 2026-11-16
+
+### Changed
+
+- Publish stable GitHub releases to npm through a trusted publishing workflow.
+- Require Node.js 22.13 or newer.
+- Require svgdom 0.1.29 or newer and bundle the JavaScript image pipeline so published installs use the supported SVG serializer.
+
+### Fixed
+
+- Avoid the SVG serialization regression that caused "Invalid State Error" during favicon generation.
+- Stop the generation spinner before reporting an error, allowing the CLI to exit instead of remaining stuck at "Generating favicon package".
+
 ## 1.0.0 - 2026-05-25
 
 Initial stable release.
